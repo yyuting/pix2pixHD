@@ -23,6 +23,7 @@ class BaseOptions():
         self.parser.add_argument('--loadSize', type=int, default=1024, help='scale images to this size')
         self.parser.add_argument('--fineSize', type=int, default=512, help='then crop to this size')
         self.parser.add_argument('--label_nc', type=int, default=35, help='# of input image channels')
+        self.parser.add_argument('--input_nc', type=int, default=0, help='# of input channels when stored in npy file')
         self.parser.add_argument('--output_nc', type=int, default=3, help='# of output image channels')
 
         # for setting inputs

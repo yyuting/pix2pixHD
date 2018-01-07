@@ -19,7 +19,11 @@ class Pix2PixHDModel(BaseModel):
         self.isTrain = opt.isTrain
         self.use_features = opt.instance_feat or opt.label_feat
         self.gen_features = self.use_features and not self.opt.load_features
-        input_nc = opt.label_nc if opt.label_nc != 0 else 3
+        if opt.input_nc == 0:
+            input_nc = opt.label_nc if opt.label_nc != 0 else 3
+        else:
+            input_nc = opt.input_nc
+            print("Input number of Channels:", input_nc)
 
         ##### define networks        
         # Generator network
