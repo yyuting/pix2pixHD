@@ -35,7 +35,11 @@ def tensor2label(label_tensor, n_label, imtype=np.uint8):
     return label_numpy.astype(imtype)
 
 def save_image(image_numpy, image_path):
-    image_pil = Image.fromarray(image_numpy)
+    if image_numpy.shape[2] > 3:
+        image_arr = image_numpy[:, :, -3:]
+    else:
+        image_arr = image_numpy
+    image_pil = Image.fromarray(image_arr)
     image_pil.save(image_path)
 
 def mkdirs(paths):
