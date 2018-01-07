@@ -4,6 +4,7 @@ import os.path
 from data.base_dataset import BaseDataset, get_params, get_transform, normalize
 from data.image_folder import make_dataset
 from PIL import Image
+import numpy
 
 class AlignedDataset(BaseDataset):
     def initialize(self, opt):
@@ -35,11 +36,14 @@ class AlignedDataset(BaseDataset):
     def __getitem__(self, index):        
         ### label maps        
         label_path = self.label_paths[index]              
-        label = Image.open(label_path)        
-        params = get_params(self.opt, label.size)
+        #label = Image.open(label_path)
+        label = numpy.load(label_path)
+        label_size = (label.shape[0], label.shape[1])
+        params = get_params(self.opt, label_size)
         if self.opt.label_nc == 0:
             transform_label = get_transform(self.opt, params)
-            label_tensor = transform_label(label.convert('RGB'))
+            #label_tensor = transform_label(label.convert('RGB'))
+            label_tensor = transform_label(label)
         else:
             transform_label = get_transform(self.opt, params, method=Image.NEAREST, normalize=False)
             label_tensor = transform_label(label) * 255.0
